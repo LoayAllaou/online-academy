@@ -1,0 +1,48 @@
+<template>
+  <section class="layout-pt-lg layout-pb-lg mb-90 section-bg">
+    <div class="section-bg__item">
+      <nuxt-img
+        width="1800"
+        height="460"
+        class="img-full rounded-16"
+        src="/assets/img/home-3/cta/bg.png"
+        alt="image"
+      />
+    </div>
+
+    <div class="container">
+      <div class="row justify-center text-center">
+        <div class="col-xl-5 col-lg-6 col-md-11">
+          <div class="sectionTitle -light">
+            <h2 class="sectionTitle__title">Subscribe our Newsletter &</h2>
+            <p class="sectionTitle__text">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-30 justify-center">
+        <div class="col-lg-6">
+          <form class="form-single-field -help" @submit.prevent="handleSubmit">
+            <input required type="text" placeholder="Your Email..." />
+            <button class="button -purple-1 text-white" type="submit">
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script setup>
+const handleSubmit = (e) => {
+  e.preventDefault();
+};
+</script>
+
+<style scoped>
+/* Add your styles here */
+</style>

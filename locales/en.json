@@ -1,0 +1,103 @@
+{
+    "welcome": "Welcome to ScaleUp!",
+    "changeLang": "Change Language",
+    "header": {
+      "home": "Home",
+      "courses": "Courses",
+      "about": "About Us",
+      "contact": "Contact"
+    },
+    "course": {
+      "enroll": "Enroll Now",
+      "price": "Price",
+      "duration": "Duration"
+    },
+    "Top Categories": {
+      "title": "Top Categories",
+      "description": "Explore our top categories"
+    },
+    "Hero Content": {
+      "title": "Learn New Skills Online with",
+      "text_underline": "ScaleUp Academy",
+      "info_hero": "Build skills with courses, certificates, and degrees online from world-class universities and companies."
+    },
+    "Buttons": {
+      "Join Button": "Join For Free",
+      "Find Courses Button": "Find Courses"
+    },
+    "Course": {
+      "title": "Our Most Popular Courses",
+      "sub_title": "10,000+ unique online course list designs",
+      "no_course_found":"No courses found in this category."
+    },
+    "Course Cart": {
+      "title": "Course Cart",
+      "sub_title": "We’re on a mission to deliver engaging, curated courses at a reasonable price.",
+      "Course": "Course",
+      "Price": "Price",
+      "Total": "Total",
+      "Remove": "Remove",
+      "Cart Totals": "Cart Totals",
+      "Apply coupon": "Apply coupon",
+      "Proceed to checkout": "Proceed to checkout",
+      "Coupon Code": "Coupon Code",
+      "Buy Course": "Buy Course",
+      "View Cart": "View Cart",
+      "Checkout": "Checkout",
+      "Is Empty": "Your Course Cart Is Empty"
+    },
+    "Course Checkout": {
+      "title": "Course Checkout",
+      "sub_title": "We’re on a mission to deliver engaging, curated courses at a reasonable price.",
+      "Billing Details": "Billing Details",
+      "First Name": "First Name",
+      "Last Name": "Last Name",
+      "Company Name": "Company Name",
+      "Country": "Country",
+      "Street Address": "Street Address",
+      "Town / City": "Town / City",
+      "State / County": "State / County",
+      "Postcode / ZIP": "Postcode / ZIP",
+      "Phone": "Phone",
+      "Email Address": "Email Address",
+      "Order Notes": "Order Notes",
+      "Your Order": "Your Order",
+      "Product": "Product",
+      "Subtotal": "Subtotal",
+      "Shipping": "Shipping",
+      "Total": "Total",
+      "Place Order": "Place Order",
+      "Additional information": "Additional information",
+      "Optional": "optional",
+      "Payment": "Payment"
+    },
+    "Footer": {
+      "About Us": "About Us",
+      "Contact Us": "Contact Us",
+      "Privacy Policy": "Privacy Policy",
+      "Terms of Service": "Terms of Service",
+      "Follow Us": "Follow Us"
+    },
+    "Our Mission": {
+      "title": "Our Mission",
+      "content": "To provide accessible and affordable education to everyone, everywhere."
+    },
+    "Our Vision": {
+      "title": "Our Vision",
+      "content": "To be the leading platform for online learning and skill development."
+    },
+    "About Us": {
+      "title": "About Us",
+      "content": "We’re on a mission to deliver engaging, curated courses at a reasonable price."
+    },
+    "Instructors":{
+      "title":"Learn from the best instructors",
+      "content": "",
+      "view all":"View All Instructors",
+      "become an instructor": "Become an instructor",
+      "become an instructor_title":"Want to help people learn, grow and achieve more in life?"
+    },
+    "Sign Up":{
+      
+    }
+  }
