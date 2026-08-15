@@ -155,3 +155,19 @@ export const menuList = [
     ],
   },
 ];
+
+
+export const menuListNew = [
+  {
+    title: "Home",
+    href: "/",
+  },
+  {
+    title: "About Us",
+    href: "/about-1",
+  },
+  {
+    title: "Contact",
+    href: "/contact-1",
+  },
+];
