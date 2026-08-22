@@ -36,7 +36,7 @@
 
         <div class="col-auto">
           <div class="d-flex items-center">
-            <div class="text-white d-flex items-center lg:d-none mr-15">
+            <!-- <div class="text-white d-flex items-center lg:d-none mr-15">
               <div class="dropdown bg-transparent px-0 py-0">
                 <div class="d-flex items-center text-14 text-dark-1">
                   All Pages
@@ -87,7 +87,7 @@
               </div>
 
               <MyCourses />
-            </div>
+            </div> -->
 
             <div class="d-flex items-center sm:d-none">
               <div class="relative">
@@ -108,12 +108,12 @@
                 </button>
               </div>
 
-              <CartToggle
+              <!-- <CartToggle
                 parentClassess="relative"
                 allClasses="d-flex items-center text-light-1 d-flex items-center justify-center size-50 rounded-16 -hover-dshb-header-light"
-              />
+              /> -->
 
-              <div class="relative" @click="() => (messageOpen = !messageOpen)">
+              <!-- <div class="relative" @click="() => (messageOpen = !messageOpen)">
                 <a
                   href="#"
                   class="d-flex items-center text-light-1 justify-center size-50 rounded-16 -hover-dshb-header-light"
@@ -121,9 +121,9 @@
                 >
                   <i class="text-24 icon icon-email"></i>
                 </a>
-              </div>
+              </div> -->
 
-              <div
+              <!-- <div
                 class="relative"
                 @click="() => (isOnNotification = !isOnNotification)"
               >
@@ -175,7 +175,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
 
             <div

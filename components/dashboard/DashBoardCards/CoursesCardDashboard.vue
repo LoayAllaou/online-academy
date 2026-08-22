@@ -47,7 +47,7 @@
       <div class="d-flex y-gap-10 justify-between items-center">
         <div class="text-14 lh-1">{{ data.authorName }}</div>
 
-        <div class="d-flex items-center">
+        <!-- <div class="d-flex items-center">
           <div class="text-14 lh-1 text-yellow-1 mr-10">{{ data.averageRating }}</div>
           <div class="d-flex x-gap-5 items-center">
             <div
@@ -56,18 +56,18 @@
               class="icon-star text-9 text-yellow-1"
             ></div>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <h3 class="text-16 fw-500 lh-15 mt-10">{{ data.titleEn }}</h3>
 
-      <div class="progress-bar mt-10">
+      <!-- <div class="progress-bar mt-10">
         <div class="progress-bar__bg bg-light-3"></div>
         <div class="progress-bar__bar bg-purple-1 w-1/5"></div>
-      </div>
+      </div> -->
 
       <div class="d-flex y-gap-10 justify-between items-center mt-10">
-        <div class="text-dark-1"> {{ data.completed }} Pending for Payment</div>
+        <div class="text-dark-1"> {{ data.completed }} {{ enrollmentStatusNames[data.enrollmentStatus] }}</div>
         <!-- <div>25%</div> -->
       </div>
     </div>
@@ -89,4 +89,10 @@ onMounted(() => {
     rating.value.push("star");
   }
 });
+
+const enrollmentStatusNames = {
+  0: "Pending",
+  1: "Pending for Payment",
+  2: "Paid",
+};
 </script>

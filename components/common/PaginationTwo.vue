@@ -1,117 +1,298 @@
 <template>
   <div class="pagination -buttons">
-    <button class="pagination__button -prev" @click="handlePrevious">
+
+    <!-- Previous -->
+    <button
+      class="pagination__button -prev"
+      :disabled="pageNumber === 1"
+      @click="handlePrevious"
+    >
       <i class="icon icon-chevron-left"></i>
     </button>
 
+
+    <!-- Pages -->
     <div class="pagination__count">
-      <a
-        @click="() => setPageNumber(1)"
-        :class="{ '-count-is-active': pageNumber === 1 }"
-        
-      >
-        1
-      </a>
-      <template v-if="dataLength > pageCapacity">
-        <a
-          @click="() => setPageNumber(2)"
-          :class="{ '-count-is-active': pageNumber === 2 }"
-          
-        >
-          2
-        </a>
-      </template>
-      <template v-if="dataLength > pageCapacity * 2">
-        <a
-          @click="() => setPageNumber(3)"
-          :class="{ '-count-is-active': pageNumber === 3 }"
-          
-        >
-          3
-        </a>
-      </template>
-
-      <template v-if="dataLength > pageCapacity * 4 && pageNumber !== 4">
-        <span>...</span>
-      </template>
 
       <template
-        v-if="
-          pageNumber > 3 && Math.ceil(dataLength / pageCapacity) !== pageNumber
-        "
+        v-for="(page, index) in visiblePages"
+        :key="`${page}-${index}`"
       >
-        <a
-          @click="() => setPageNumber(pageNumber)"
-          
-          class="-count-is-active"
+
+        <!-- Ellipsis -->
+        <span
+          v-if="page === '...'"
+          class="pagination-ellipsis"
         >
-          {{ pageNumber }}
-        </a>
-      </template>
+          ...
+        </span>
 
-      <template
-        v-if="
-          pageNumber == 4
-        "
-      >
-        <span class="">...</span>
-      </template>
 
-      <template v-if="dataLength > pageCapacity * 3 + 1">
+        <!-- Page -->
         <a
-          @click="() => setPageNumber(Math.ceil(dataLength / pageCapacity))"
+          v-else
+          @click="setPageNumber(page)"
           :class="{
             '-count-is-active':
-              pageNumber === Math.ceil(dataLength / pageCapacity),
+              pageNumber === page
           }"
         >
-          {{ Math.ceil(dataLength / pageCapacity) }}
+          {{ page }}
         </a>
+
       </template>
+
     </div>
 
-    <button @click="handleNext" class="pagination__button -next">
+
+    <!-- Next -->
+    <button
+      class="pagination__button -next"
+      :disabled="pageNumber === totalPages"
+      @click="handleNext"
+    >
       <i class="icon icon-chevron-right"></i>
     </button>
+
   </div>
 </template>
 
+
 <script setup>
-import { ref } from "vue";
+import { computed } from "vue";
 
-const dataLength = ref(50);
-const pageCapacity = ref(5);
 
-const pageNumber = ref(1);
+/* =====================================
+   PROPS
+===================================== */
+
+const props = defineProps({
+
+  dataLength: {
+    type: Number,
+    required: true,
+  },
+
+  pageCapacity: {
+    type: Number,
+    default: 10,
+  },
+
+  pageNumber: {
+    type: Number,
+    default: 1,
+  },
+
+});
+
+
+/* =====================================
+   EVENTS
+===================================== */
+
+const emit = defineEmits([
+  "update:pageNumber"
+]);
+
+
+/* =====================================
+   TOTAL PAGES
+===================================== */
+
+const totalPages = computed(() => {
+
+  if (props.dataLength <= 0) {
+    return 1;
+  }
+
+  return Math.ceil(
+    props.dataLength /
+    props.pageCapacity
+  );
+
+});
+
+
+/* =====================================
+   SET PAGE
+===================================== */
 
 const setPageNumber = (page) => {
 
-    pageNumber.value = page;
+  if (page === "...") {
+    return;
+  }
+
+  if (
+    page < 1 ||
+    page > totalPages.value
+  ) {
+    return;
+  }
+
+  emit(
+    "update:pageNumber",
+    page
+  );
 
 };
+
+
+/* =====================================
+   PREVIOUS
+===================================== */
 
 const handlePrevious = () => {
-  if (pageNumber.value > 1) {
-    setPageNumber(pageNumber.value - 1);
+
+  if (props.pageNumber > 1) {
+
+    setPageNumber(
+      props.pageNumber - 1
+    );
+
   }
+
 };
+
+
+/* =====================================
+   NEXT
+===================================== */
 
 const handleNext = () => {
-  if (Math.ceil(dataLength.value / pageCapacity.value) > pageNumber.value) {
-    setPageNumber(pageNumber.value + 1);
+
+  if (
+    props.pageNumber <
+    totalPages.value
+  ) {
+
+    setPageNumber(
+      props.pageNumber + 1
+    );
+
   }
+
 };
+
+
+/* =====================================
+   VISIBLE PAGES
+===================================== */
+
+const visiblePages = computed(() => {
+
+  const total =
+    totalPages.value;
+
+  const current =
+    props.pageNumber;
+
+
+  /* -----------------------------
+     1 - 5 pages
+  ----------------------------- */
+
+  if (total <= 5) {
+
+    return Array.from(
+      { length: total },
+      (_, index) => index + 1
+    );
+
+  }
+
+
+  /* -----------------------------
+     Beginning
+  ----------------------------- */
+
+  if (current <= 3) {
+
+    return [
+      1,
+      2,
+      3,
+      4,
+      "...",
+      total,
+    ];
+
+  }
+
+
+  /* -----------------------------
+     End
+  ----------------------------- */
+
+  if (
+    current >= total - 2
+  ) {
+
+    return [
+      1,
+      "...",
+      total - 3,
+      total - 2,
+      total - 1,
+      total,
+    ];
+
+  }
+
+
+  /* -----------------------------
+     Middle
+  ----------------------------- */
+
+  return [
+    1,
+    "...",
+    current - 1,
+    current,
+    current + 1,
+    "...",
+    total,
+  ];
+
+});
 </script>
 
-<style scoped>
-a{cursor: pointer;}
-/* Add your component-specific styles here */
-@media (max-width:550px) {
-  .pagination.-buttons > * + *{
-    margin-left: 10px !important;
 
+<style scoped>
+
+a {
+  cursor: pointer;
+}
+
+
+button:disabled {
+  opacity: 0.4;
+
+  cursor: not-allowed;
+
+  pointer-events: none;
+}
+
+
+.pagination-ellipsis {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-width: 30px;
+
+  cursor: default;
+}
+
+
+@media (max-width: 550px) {
+
+  .pagination.-buttons > * + * {
+    margin-left: 10px !important;
   }
 
- 
 }
+
 </style>

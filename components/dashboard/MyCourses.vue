@@ -4,7 +4,7 @@
       <div class="row pb-50 mb-10">
         <div class="col-auto">
           <h1 class="text-30 lh-12 fw-700">My Courses</h1>
-          <div class="mt-10">Lorem ipsum dolor sit amet, consectetur.</div>
+          <div class="mt-10"></div>
         </div>
       </div>
 
@@ -12,29 +12,16 @@
         <div class="col-12">
           <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
             <div class="tabs -active-purple-2 js-tabs">
-              <div
-                class="tabs__controls d-flex items-center pt-20 px-30 border-bottom-light js-tabs-controls"
-              >
-                <button
-                  :class="`text-light-1 lh-12 tabs__button js-tabs-button ${
-                    activeTab == 1 ? 'is-active' : ''
-                  } `"
-                  type="button"
-                  @click="() => (activeTab = 1)"
-                >
+              <div class="tabs__controls d-flex items-center pt-20 px-30 border-bottom-light js-tabs-controls">
+                <button :class="`text-light-1 lh-12 tabs__button js-tabs-button ${activeTab == 1 ? 'is-active' : ''
+                  } `" type="button" @click="() => (activeTab = 1)">
                   All Courses
                 </button>
-                <button
-                  :class="`text-light-1 lh-12 tabs__button js-tabs-button ml-30 ${
-                    activeTab == 2 ? 'is-active' : ''
-                  } `"
-                  data-tab-target=".-tab-item-2"
-                  type="button"
-                  @click="() => (activeTab = 2)"
-                >
-                  Finished
+                <button :class="`text-light-1 lh-12 tabs__button js-tabs-button ml-30 ${activeTab == 2 ? 'is-active' : ''
+                  } `" data-tab-target=".-tab-item-2" type="button" @click="() => (activeTab = 2)">
+                  Pending for Payment
                 </button>
-                <button
+                <!-- <button
                   :class="`text-light-1 lh-12 tabs__button js-tabs-button ml-30 ${
                     activeTab == 3 ? 'is-active' : ''
                   } `"
@@ -43,7 +30,7 @@
                   @click="() => (activeTab = 3)"
                 >
                   Not enrolled
-                </button>
+                </button> -->
               </div>
 
               <div class="tabs__content py-30 px-30 js-tabs-content">
@@ -51,22 +38,23 @@
                   <div class="row y-gap-10 justify-between">
                     <div class="col-auto">
                       <form
-                        class="search-field border-light rounded-8 h-50"
-                        @submit.prevent="handleSubmit"
-                      >
-                        <input
-                          required
-                          class="bg-white -dark-bg-dark-2 pr-50"
-                          type="text"
-                          placeholder="Search Courses"
-                        />
-                        <button class="" type="submit">
-                          <i class="icon-search text-light-1 text-20"></i>
-                        </button>
-                      </form>
+  class="search-field border-light rounded-8 h-50"
+  @submit.prevent="applyFilters"
+>
+  <input
+    v-model="searchQuery"
+    class="bg-white -dark-bg-dark-2 pr-50"
+    type="text"
+    placeholder="Search Courses"
+  />
+
+  <button type="submit">
+    <i class="icon-search text-light-1 text-20"></i>
+  </button>
+</form>
                     </div>
 
-                    <div class="col-auto">
+                    <!-- <div class="col-auto">
                       <div class="d-flex flex-wrap y-gap-10 x-gap-20">
                         <div>
                           <div
@@ -173,22 +161,18 @@
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                   </div>
 
                   <div class="row y-gap-30 pt-30">
-                    <CoursesCardDashboard
-                      v-for="(data, i) in pageItems"
-                      :data="data"
-                      :key="i"
-                    />
+                    <CoursesCardDashboard v-for="(data, i) in pageItems" :data="data" :key="i" />
                   </div>
 
-                  <div class="row justify-center pt-30">
+                  <!-- <div class="row justify-center pt-30">
                     <div class="col-auto">
                       <Pagination />
                     </div>
-                  </div>
+                  </div> -->
                 </div>
 
                 <!-- {/* <div class="tabs__pane -tab-item-2"></div>
@@ -217,15 +201,19 @@ const courseStore = useCourseStore();
 const myCourses = ref([]);
 const pageData = ref([]);
 const pageItems = ref([]);
+const searchQuery = ref("");
+const EnrollmentStatus = {
+  Pending: 1,
+  PendingPayment: 2,
+  Paid: 3,
+};
 
 onMounted(async () => {
-  // fetch user’s courses from API
   myCourses.value = await courseStore.fetchMyCourses();
+
   console.log("User courses data:", myCourses.value);
 
-  // initialize display
-  pageData.value = myCourses.value;
-  pageItems.value = myCourses.value;
+  applyFilters();
 });
 
 const ddItems = [
@@ -240,21 +228,53 @@ const currentCategory = ref("All Categories");
 const activeTab = ref(1);
 //const pageData = ref(coursesData);
 
-watch(
- activeTab,
-  () => {
-    if (activeTab.value === 1) {
-      pageData.value = myCourses.value;
-    } else if (activeTab.value === 2) {
-      pageData.value = myCourses.value.filter((elm) => elm.status === "Finished");
-    } else if (activeTab.value === 3) {
-      pageData.value = myCourses.value.filter(
-        (elm) => elm.status === "Not enrolled",
-      );
-    }
-    applyCategoryFilter();
-  },
-);
+
+
+const applyFilters = () => {
+  let courses = [...myCourses.value];
+
+  // =========================
+  // Status filter
+  // =========================
+  if (activeTab.value === 2) {
+    courses = courses.filter(
+      (course) => course.enrollmentStatus === EnrollmentStatus.PendingPayment
+    );
+  }
+
+  // =========================
+  // Search filter
+  // =========================
+  const query = searchQuery.value.trim().toLowerCase();
+
+  if (query) {
+    courses = courses.filter((course) =>
+      course.titleEn?.toLowerCase().includes(query)
+    );
+  }
+
+  // =========================
+  // Save filtered data
+  // =========================
+  pageData.value = courses;
+
+  // =========================
+  // Category filter
+  // =========================
+  applyCategoryFilter();
+};
+
+
+
+watch(searchQuery, () => {
+  applyFilters();
+});
+
+watch(activeTab, () => {
+  applyFilters();
+});
+
+
 
 // watch category change
 watch(currentCategory, () => {
@@ -272,10 +292,6 @@ function applyCategoryFilter() {
   }
 }
 
-
-const handleSubmit = (e) => {
-  e.preventDefault();
-};
 
 // watch([currentCategory, () => pageData.value], () => {
 //   if (currentCategory.value === "All Categories") {
